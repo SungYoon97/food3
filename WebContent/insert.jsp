@@ -40,9 +40,10 @@ function inputPhoneNumber(obj) {
 
 </head>		
 <body>		
-		
+
+<jsp:include page="top.jsp" flush="false"/>
 <div class="container">		
-<h2>맛집 리스트</h2>		
+<h2>맛집추가</h2>		
 <form action="submit.jsp">		
 <div class="form-group">		
 <label for="name">가게이름</label>		
@@ -77,7 +78,7 @@ function inputPhoneNumber(obj) {
 <input type="text" class="form-control" id="time" placeholder="영업시간 입력" name="time">		
 </div>		
 		
-<button type="submit" class="btn btn-primary">맛집 찾으러 가기</button>		
+<button type="submit" class="btn btn-primary">맛집등록</button>		
 </form>		
 </div>		
 		

@@ -11,8 +11,12 @@
 
 <%
 
-String ob= request.getParameter("orderby");//오름차순
-System.out.println(ob);
+request.setCharacterEncoding("utf-8");// 한글 깨짐 방지
+
+String search= request.getParameter("search");
+System.out.println(search+" 검색 했네");
+
+
 
 //위 데이터를 데이터 베이스에 넣기
 Connection conn = null;			
@@ -24,19 +28,10 @@ try {
 	Context init = new InitialContext();
 	DataSource ds = (DataSource)init.lookup("java:comp/env/jdbc/kndb");
 	conn = ds.getConnection();
-	String sql=null;
-	boolean isDesc = false;
 	
-	if(ob==null){
-	//오름차순
-	
-	sql = "SELECT * FROM food  ORDER BY price desc ";
-	
-	}else{
-	//내림차순
-		sql = "SELECT * FROM food  ORDER BY price asc ";
-	}
+	String sql = "SELECT * FROM food WHERE menu LIKE ?";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
+	pstmt.setString(1, "%"+search+"%");
 	ResultSet rs = pstmt.executeQuery();
 	
 	while (rs.next()) {
@@ -70,7 +65,7 @@ if (connect == true) {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>전체 맛집</title>
+  <title>검색결과</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -89,11 +84,7 @@ if (connect == true) {
         <th>가게이름</th>
         <th>메뉴</th>
         <th>원산지</th>
-        <%	if(ob==null){ %>
-        <th>가격<a href="print.jsp?orderby=1">↑</a></th>
-        <%}else {%>
-        <th>가격<a href="print.jsp">↓</a></th>
-        <%}%>
+        <th>가격</th>
         <th>위치</th>
         <th>별점</th>
         <th>전화번호</th>
